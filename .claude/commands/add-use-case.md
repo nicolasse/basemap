@@ -1,7 +1,5 @@
 ---
-name: add-use-case
 description: Implement a new use case for an existing feature, maintaining consistency with product definitions and engineering contracts.
-user-invocable: true
 ---
 
 # Add Use Case
@@ -20,7 +18,7 @@ Match the user's request to the most likely feature directory based on semantic 
 **If you are confident in the match** (single obvious candidate), confirm to the user which feature you matched and proceed.
 **If ambiguous** (multiple plausible matches or no clear match), list the available features and ask the user to pick one before continuing.
 
-Never guess. Never create a new feature directory in this skill.
+Never guess. Never create a new feature directory in this command.
 
 ### 2. Duplicate Check
 

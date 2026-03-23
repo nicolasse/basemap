@@ -1,7 +1,5 @@
 ---
-name: map-feature-implementation
 description: Explore all repos in the workspace to build the implementation.md for a feature, mapping its current state end-to-end.
-user-invocable: true
 ---
 
 # Map Feature Implementation

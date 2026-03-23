@@ -1,7 +1,5 @@
 ---
-name: map-feature-product
 description: Build the product.md for a feature by exploring the codebase and talking to the developer to define use cases, business rules, and scope.
-user-invocable: true
 ---
 
 # Map Feature Product

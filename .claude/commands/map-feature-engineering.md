@@ -1,7 +1,5 @@
 ---
-name: map-feature-engineering
 description: Build the engineering.md for a feature by exploring the codebase to extract the key interfaces, constraints, and patterns.
-user-invocable: true
 ---
 
 # Map Feature Engineering
