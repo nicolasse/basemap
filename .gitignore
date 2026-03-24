@@ -1,3 +1,6 @@
 .DS_Store
 repositories/*
 !repositories/.gitkeep
+features/*
+!features/_template
+!features/CLAUDE.md

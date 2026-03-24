@@ -1,13 +1,14 @@
 ---
 name: feature-implementer
 description: Implements code changes for a feature given its full context and a task description.
+color: blue
 ---
 
 # Agent: Feature Implementer
 
 Implements code changes for a feature given its full context and a task description.
 
-Invoked as a subagent from skills (e.g., `add-use-case`) or directly by the developer.
+Invoked as a subagent from commands (e.g., `bm-add-use-case`, `bm-add-feature`) or directly by the developer.
 
 ## Input
 
@@ -16,7 +17,7 @@ Invoked as a subagent from skills (e.g., `add-use-case`) or directly by the deve
 - **Context files** (provided by the caller, already in your context):
   - `product.md` — what the feature does, use cases, business rules
   - `engineering.md` — technical contracts, interfaces, constraints
-  - `implementation.md` — current state, key files, flows, data model
+  - `implementation.md` — current state, key files, flows, data model (may not exist for new features)
 
 All repos are inside `repositories/`. Use `implementation.md` to know which repos and files are involved.
 

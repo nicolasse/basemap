@@ -10,51 +10,86 @@ basemap sits on top of your repos and gives AI agents (and humans) a structured 
 - **engineering.md** — technical contracts, key interfaces, constraints
 - **implementation.md** — how it's actually built today, key files, flows
 
-Skills and agents use these files to implement new use cases, review contracts, and map existing code — all without losing context across repos.
-
-## Structure
-
-```
-basemap/
-  CLAUDE.md                              # workspace context
-  repositories/                          # your repos go here
-  features/
-    CLAUDE.md                            # agent instructions
-    _template/                           # templates for new features
-    {feature-name}/                      # one dir per feature
-      product.md
-      engineering.md
-      implementation.md
-  .claude/
-    skills/                              # user-invocable workflows
-      add-use-case.md                    # implement a new use case
-      map-feature-product.md             # generate product.md from code + conversation
-      map-feature-engineering.md         # generate engineering.md from code
-      map-feature-implementation.md      # generate implementation.md from code
-    agents/                              # reusable worker agents
-      feature-implementer.md             # writes code with feature context
-      contract-reviewer.md               # validates contracts, read-only
-```
+Commands and agents use these files to implement new use cases, review contracts, and map existing code — all without losing context across repos.
 
 ## Getting started
 
-1. Clone this repo (or copy the structure into your workspace)
-2. Put your repos inside `repositories/`
-3. Open the workspace in Claude Code
-4. Run a skill: "map the product for follow-ups"
+```bash
+# 1. Clone basemap as your workspace
+git clone git@github.com:nicolasse/basemap.git my-workspace
+cd my-workspace
 
-## Skills
+# 2. Set up your project context
+cd features
+git init  # or clone an existing features repo
+cd ..
 
-| Skill | What it does |
+# 3. Clone your repos
+cd repositories
+git clone git@github.com:your-org/repo-a.git
+git clone git@github.com:your-org/repo-b.git
+cd ..
+
+# 4. Open Claude Code
+claude
+```
+
+## Three layers of git
+
+basemap separates the framework from the project context from the code:
+
+```
+my-workspace/                ← basemap git (the framework)
+  .claude/
+    commands/                ← bm- prefixed commands
+    agents/                  ← worker agents
+  features/                  ← project context git (your team's knowledge)
+    CLAUDE.md                ← part of basemap
+    _template/               ← part of basemap
+    follow-up/               ← your project context
+    payments/                ← your project context
+  repositories/              ← each repo has its own git
+    repo-a/
+    repo-b/
+```
+
+| Layer | What it is | Who shares it |
+|---|---|---|
+| **basemap** (root git) | Framework: commands, agents, templates | Everyone using basemap |
+| **features/** (its own git) | Project context: product, engineering, implementation docs | Your team working on this project |
+| **repositories/** (each its own git) | The actual code | Depends on the repo |
+
+This means you can:
+- Update basemap independently (pull new commands/agents)
+- Share project context with your team without coupling it to basemap
+- Use the same basemap setup for completely different projects
+
+## Commands
+
+| Command | What it does |
 |---|---|
-| `map-feature-product` | Explores repos + talks to you to generate `product.md` |
-| `map-feature-engineering` | Explores repos to extract technical contracts into `engineering.md` |
-| `map-feature-implementation` | Explores repos to map current implementation into `implementation.md` |
-| `add-use-case` | Implements a new use case end-to-end with contract validation |
+| `/bm-add-feature` | Design and implement a new feature from scratch |
+| `/bm-add-use-case` | Add a use case to an existing feature with contract validation |
+| `/bm-map-feature-product` | Explores repos + talks to you → generates `product.md` |
+| `/bm-map-feature-engineering` | Explores repos → extracts technical contracts into `engineering.md` |
+| `/bm-map-feature-implementation` | Explores repos → maps current implementation into `implementation.md` |
 
 ## Agents
 
-| Agent | What it does |
-|---|---|
-| `feature-implementer` | Writes code scoped to a feature, respecting its contracts |
-| `contract-reviewer` | Validates code against product and engineering contracts (read-only) |
+| Agent | Color | What it does |
+|---|---|---|
+| `feature-implementer` | 🔵 blue | Writes code scoped to a feature, respecting its contracts |
+| `contract-reviewer` | 🟡 yellow | Validates code against product and engineering contracts (read-only) |
+
+## Workflow
+
+**New feature (doesn't exist in code):**
+1. `/bm-add-feature` — designs product + engineering, implements, validates, documents
+
+**Existing feature (already in code, needs context files):**
+1. `/bm-map-feature-product` → generates `product.md`
+2. `/bm-map-feature-engineering` → generates `engineering.md`
+3. `/bm-map-feature-implementation` → generates `implementation.md`
+
+**Adding behavior to an existing feature:**
+1. `/bm-add-use-case` — implements, validates contracts, updates context files

@@ -6,7 +6,7 @@ This is a multi-repo workspace.
 
 - `repositories/` — All repos live here. Each subdirectory is a repo.
 - `features/` — Product, engineering, and implementation context for each feature. See `features/CLAUDE.md`.
-- `.claude/skills/` — User-invocable workflows
+- `.claude/commands/` — User-invocable workflows (prefixed with `bm-`)
 - `.claude/agents/` — Reusable worker agents
 
 ## Repos
